@@ -1242,7 +1242,10 @@ module Formtastic #:nodoc:
       if type == :numeric || column.nil? || column.limit.nil?
         { :size => @@default_text_field_size }
       else
-        { :maxlength => column.limit, :size => [column.limit, @@default_text_field_size].min }
+        limit = column.limit
+        #allow a decimal point
+        limit += 1 if column.type == :decimal
+        { :maxlength => limit, :size => [limit, @@default_text_field_size].min }
       end
     end
 
